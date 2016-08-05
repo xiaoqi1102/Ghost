@@ -8,6 +8,7 @@ var express = require('express'),
     Promise = require('bluebird'),
     i18n = require('./i18n'),
     api = require('./api'),
+    auth = require('./auth'),
     config = require('./config'),
     errors = require('./errors'),
     middleware = require('./middleware'),
@@ -51,7 +52,8 @@ function initDbHashAndFirstRun() {
 function init(options) {
     options = options || {};
 
-    var ghostServer = null;
+    var ghostServer = null,
+        parentApp = null;
 
     // ### Initialisation
     // The server and its dependencies require a populated config
@@ -124,7 +126,7 @@ function init(options) {
         );
     }).then(function () {
         // Get reference to an express app instance.
-        var parentApp = express();
+        parentApp = express();
 
         // ## Middleware and Routing
         middleware(parentApp);
@@ -142,6 +144,12 @@ function init(options) {
                 });
             });
 
+        //@TODO: read from config (type is password or patronus)
+        return auth.init({type: 'patronus'})
+            .then(function (response) {
+                parentApp.use(response.auth);
+            });
+    }).then(function () {
         return new GhostServer(parentApp);
     }).then(function (_ghostServer) {
         ghostServer = _ghostServer;
