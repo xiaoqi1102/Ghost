@@ -84,7 +84,6 @@ apiRoutes = function apiRoutes(middleware) {
         })()
     );
     router.get('/users/slug/:slug',
-        authenticatePublic,
         (function () {
             if (config.auth.type === 'patronus') {
                 return [
@@ -102,7 +101,6 @@ apiRoutes = function apiRoutes(middleware) {
         })()
     );
     router.get('/users/email/:email',
-        authenticatePublic,
         (function () {
             if (config.auth.type === 'patronus') {
                 return [
@@ -217,6 +215,7 @@ apiRoutes = function apiRoutes(middleware) {
     router.get('/billing',
         auth.authenticate.authenticateClient,
         auth.authenticate.authenticateUser,
+        auth.authenticate.fetchPatronusAccessToken,
         api.http(api.ghost.getBilling)
     );
 
