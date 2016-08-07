@@ -1147,9 +1147,9 @@ describe('Fixtures', function () {
                 clientOneStub.calledThrice.should.be.true();
                 clientAddStub.calledThrice.should.be.true();
 
-                permOneStub.callCount.should.eql(40);
+                permOneStub.callCount.should.eql(44);
                 permsAddStub.called.should.be.true();
-                permsAddStub.callCount.should.eql(40);
+                permsAddStub.callCount.should.eql(44);
 
                 permsAllStub.calledOnce.should.be.true();
                 rolesAllStub.calledOnce.should.be.true();
@@ -1159,7 +1159,7 @@ describe('Fixtures', function () {
                 // Relations
                 modelMethodStub.filter.called.should.be.true();
                 // 26 permissions, 1 tag
-                modelMethodStub.filter.callCount.should.eql(28 + 1);
+                modelMethodStub.filter.callCount.should.eql(29 + 1);
                 modelMethodStub.find.called.should.be.true();
                 // 3 roles, 1 post
                 modelMethodStub.find.callCount.should.eql(3 + 1);
